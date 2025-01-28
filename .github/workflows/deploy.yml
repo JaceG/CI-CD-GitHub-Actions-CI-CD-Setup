@@ -1,0 +1,26 @@
+name: Deploy to Render
+
+on:
+    pull_request:
+        types:
+            - closed
+        branches:
+            - main
+
+jobs:
+    deploy:
+        if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'developer'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Trigger Render Deployment
+              run: |
+                  curl -X POST "https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_SERVICE_KEY }}" \
+                  -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+                  -H "Accept: application/json" \
+                  -H "Content-Type: application/json"
+
+            - name: Confirm Deployment Triggered
+              run: echo "Deployment request sent to Render.com"
