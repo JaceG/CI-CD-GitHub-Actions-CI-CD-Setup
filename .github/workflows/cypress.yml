@@ -1,0 +1,42 @@
+name: Cypress Component Tests
+
+on:
+    pull_request:
+        branches:
+            - develop
+
+jobs:
+    cypress-run:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run Cypress component tests
+              uses: cypress-io/github-action@v6
+              with:
+                  component: true
+                  browser: chrome
+                  headless: true
+              continue-on-error: false
+
+            - name: Upload Cypress screenshots
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
+
+            - name: Upload Cypress videos
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-videos
+                  path: cypress/videos
+
+            - name: Fail PR if Cypress tests fail
+              if: failure()
+              run: exit 1
