@@ -15,6 +15,9 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            - name: Upload screenshots
+              uses: actions/upload-artifact@v3
+
             - name: Run Cypress component tests
               uses: cypress-io/github-action@v6
               with:
@@ -40,3 +43,10 @@ jobs:
             - name: Fail PR if Cypress tests fail
               if: failure()
               run: exit 1
+
+            - name: Save screenshots on failure
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-failure-screenshots
+                  path: cypress/screenshots
