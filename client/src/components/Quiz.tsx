@@ -50,7 +50,7 @@ const Quiz = () => {
 				<button
 					className='btn btn-primary d-inline-block mx-auto'
 					onClick={handleStartQuiz}>
-					Start Test
+					Start Quiz
 				</button>
 			</div>
 		);
