@@ -141,6 +141,6 @@ For any questions, please contact me:
 
 ## Preview
 
-![Preview 1](./public/preview1.png)
+![Preview 1](./public/preview.png)
 
 ![Preview 2](./public/preview2.png)
